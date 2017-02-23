@@ -1,10 +1,13 @@
 package com.jedi.hackathons;
 
+import com.jedi.hackathons.domain.Endpoint;
+import com.jedi.hackathons.input.EndpointData;
 import com.jedi.hackathons.input.InputDto;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App 
@@ -39,6 +42,23 @@ public class App
     }
 
     private static InputDto readFile(Scanner in) {
-        return null;
+        InputDto inputDto = new InputDto();
+        inputDto.setNumVideos(in.nextLong());
+        inputDto.setNumCacheServers(in.nextLong());
+        inputDto.setNumEndpoints(in.nextLong());
+        inputDto.setNumReqDescs(in.nextLong());
+        inputDto.setNumServerCapacity(in.nextLong());
+        ArrayList<Long> videoSizes = new ArrayList<>();
+        for (int i = 0; i < inputDto.getNumVideos(); i++) {
+            videoSizes.add(in.nextLong());
+        }
+        for (int i = 0; i < inputDto.getNumEndpoints(); i++) {
+            EndpointData endpointData = new EndpointData();
+            endpointData.setLatency(in.nextLong());
+            Endpoint endpoint = new Endpoint();
+            endpoint.dataCenterLatency = endpointData.getLatency();
+
+        }
+        return inputDto;
     }
 }
