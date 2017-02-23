@@ -7,7 +7,16 @@ import java.util.List;
  */
 public class Chromosome {
 
-    public long serverId;
-    public List<Integer> videos;
+    long serverId;
+    List<Long> videos;
+
+    long capacity;
+    long remainingCapacity;
+
+    public Chromosome(long serverId) {
+        this.serverId = serverId;
+        this.capacity = 0;
+        this.remainingCapacity = capacity;
+    }
 
 }
