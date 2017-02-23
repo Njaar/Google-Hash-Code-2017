@@ -13,10 +13,19 @@ public class Chromosome {
     long capacity;
     long remainingCapacity;
 
-    public Chromosome(long serverId) {
+    public Chromosome(long serverId, long capacity) {
         this.serverId = serverId;
-        this.capacity = 0;
+        this.capacity = capacity;
         this.remainingCapacity = capacity;
+    }
+
+    public boolean validateAddVideo(long videoId, long videoSize) {
+        if(remainingCapacity >= videoSize) {
+            videos.add(videoId);
+            remainingCapacity -= videoSize;
+            return true;
+        }
+        return false;
     }
 
 }
