@@ -8,5 +8,5 @@ import java.util.Map;
 public class Endpoint {
     Map<Video, Long> videoRequests;
     Map<Server, Long> serverLatency;
-
+    Long dataCenterLatency;
 }
