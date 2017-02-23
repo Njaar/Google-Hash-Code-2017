@@ -5,9 +5,8 @@ import java.util.List;
 /**
  * Created by rishal on 2017/02/23.
  */
-public class Chromosome {
+public class Population {
 
-    public long serverId;
-    public List<Integer> videos;
+    public List<Individual> individuals;
 
 }

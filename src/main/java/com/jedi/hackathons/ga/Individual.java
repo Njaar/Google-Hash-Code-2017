@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by rishal on 2017/02/23.
  */
-public class Candidate {
+public class Individual {
 
     public List<Chromosome> chromosomes;
     public int score;

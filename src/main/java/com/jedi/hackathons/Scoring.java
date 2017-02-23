@@ -5,6 +5,6 @@ package com.jedi.hackathons;
  */
 public class Scoring {
 
-    
+
 
 }
