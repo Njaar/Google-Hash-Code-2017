@@ -3,6 +3,7 @@ package com.jedi.hackathons;
 import com.jedi.hackathons.domain.Endpoint;
 import com.jedi.hackathons.domain.Server;
 import com.jedi.hackathons.domain.Video;
+import com.jedi.hackathons.ga.GeneticAlgorithm;
 import com.jedi.hackathons.input.CacheServerData;
 import com.jedi.hackathons.input.EndpointData;
 import com.jedi.hackathons.input.InputDto;
@@ -18,8 +19,8 @@ import java.util.Scanner;
 
 public class App 
 {
-//    private static final String INPUT_FILE_NAME = "A-small-attempt4.in";
-//    private static final String OUTPUT_FILE_NAME = "result.txt";
+    private static final String INPUT_FILE_NAME = "kittens.in";
+    private static final String OUTPUT_FILE_NAME = "result.txt";
 
     public static void main(String[] args){
 
@@ -27,8 +28,8 @@ public class App
         Scanner in = null;
         BufferedWriter out = null;
         try{
-            in = new Scanner(new File(args[0]));
-            out = new BufferedWriter(new FileWriter(args[1] , false));
+            in = new Scanner(new File(INPUT_FILE_NAME));
+            out = new BufferedWriter(new FileWriter(OUTPUT_FILE_NAME , false));
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -36,6 +37,8 @@ public class App
         InputDto inputDto = readFile(in);
         ArrayList<Endpoint> endpoints = generateEndpoints(inputDto);
         ArrayList<Server> servers = getServers(inputDto);
+
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(inputDto, endpoints, servers);
 
         //Variables
         String output = "";
