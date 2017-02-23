@@ -1,8 +1,12 @@
 package com.jedi.hackathons;
 
 import com.jedi.hackathons.domain.Endpoint;
+import com.jedi.hackathons.domain.Server;
+import com.jedi.hackathons.domain.Video;
+import com.jedi.hackathons.input.CacheServerData;
 import com.jedi.hackathons.input.EndpointData;
 import com.jedi.hackathons.input.InputDto;
+import com.jedi.hackathons.input.RequestDescription;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,6 +32,7 @@ public class App
         }
 
         InputDto inputDto = readFile(in);
+//        ArrayList<Endpoint> endpoints = generateEndpoints(inputDto);
 
         //Variables
         String output = "";
@@ -41,6 +46,7 @@ public class App
         }
     }
 
+
     private static InputDto readFile(Scanner in) {
         InputDto inputDto = new InputDto();
         inputDto.setNumVideos(in.nextLong());
@@ -49,15 +55,31 @@ public class App
         inputDto.setNumReqDescs(in.nextLong());
         inputDto.setNumServerCapacity(in.nextLong());
         ArrayList<Long> videoSizes = new ArrayList<>();
+        inputDto.setVideoSizes(videoSizes);
+        inputDto.setEndpointDataList(new ArrayList<>());
         for (int i = 0; i < inputDto.getNumVideos(); i++) {
             videoSizes.add(in.nextLong());
         }
         for (int i = 0; i < inputDto.getNumEndpoints(); i++) {
             EndpointData endpointData = new EndpointData();
+            inputDto.getEndpointDataList().add(endpointData);
             endpointData.setLatency(in.nextLong());
+            endpointData.setNumCacheServers(in.nextLong());
+            for (int k = 0; k < inputDto.getNumCacheServers(); k++) {
+                CacheServerData cacheServerData = new CacheServerData();
+                endpointData.setEndpointConnections(new ArrayList<>());
+                cacheServerData.setServerId(in.nextLong());
+                cacheServerData.setLatency(in.nextLong());
+            }
+            inputDto.setRequestDescriptions(new ArrayList<>());
+            for (int j = 0; j < inputDto.getNumReqDescs(); j++) {
+                RequestDescription description = new RequestDescription();
+                description.setVideoId(in.nextLong());
+                description.setEndpointId(in.nextLong());
+                description.setNumRequests(in.nextLong());
+            }
             Endpoint endpoint = new Endpoint();
-            endpoint.dataCenterLatency = endpointData.getLatency();
-
+            endpoint.setDataCenterLatency(endpointData.getLatency());
         }
         return inputDto;
     }
