@@ -32,7 +32,7 @@ public class App
         }
 
         InputDto inputDto = readFile(in);
-//        ArrayList<Endpoint> endpoints = generateEndpoints(inputDto);
+        ArrayList<Endpoint> endpoints = generateEndpoints(inputDto);
 
         //Variables
         String output = "";
@@ -46,6 +46,21 @@ public class App
         }
     }
 
+    private static ArrayList<Endpoint> generateEndpoints(InputDto inputDto) {
+        ArrayList<Endpoint> list = new ArrayList<>();
+        for (EndpointData endpointData :  inputDto.getEndpointDataList()) {
+//            list.add(createEndpoint(endpointData, inputDto.getRequestDescriptions().get()));
+        }
+        return list;
+    }
+
+//    private static Endpoint createEndpoint(EndpointData endpointData, RequestDescription requestDescriptions) {
+//        Endpoint endpoint = new Endpoint();
+//        endpoint.setDataCenterLatency(endpointData.getLatency());
+//        endpoint.setVideoRequests(createVideoRequestMap(requestDescriptions.get()));
+//        endpoint.setServerLatency();
+//        return endpoint;
+//    }
 
     private static InputDto readFile(Scanner in) {
         InputDto inputDto = new InputDto();
@@ -65,11 +80,12 @@ public class App
             inputDto.getEndpointDataList().add(endpointData);
             endpointData.setLatency(in.nextLong());
             endpointData.setNumCacheServers(in.nextLong());
+            endpointData.setEndpointConnections(new ArrayList<>());
             for (int k = 0; k < inputDto.getNumCacheServers(); k++) {
                 CacheServerData cacheServerData = new CacheServerData();
-                endpointData.setEndpointConnections(new ArrayList<>());
                 cacheServerData.setServerId(in.nextLong());
                 cacheServerData.setLatency(in.nextLong());
+                endpointData.getEndpointConnections().set(Integer.parseInt(String.valueOf(cacheServerData.getServerId())), cacheServerData);
             }
             inputDto.setRequestDescriptions(new ArrayList<>());
             for (int j = 0; j < inputDto.getNumReqDescs(); j++) {
@@ -77,9 +93,8 @@ public class App
                 description.setVideoId(in.nextLong());
                 description.setEndpointId(in.nextLong());
                 description.setNumRequests(in.nextLong());
+                inputDto.getRequestDescriptions().set(Integer.parseInt(String.valueOf(description.getVideoId())), description);
             }
-            Endpoint endpoint = new Endpoint();
-            endpoint.setDataCenterLatency(endpointData.getLatency());
         }
         return inputDto;
     }
