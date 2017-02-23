@@ -18,9 +18,11 @@ public class GeneticAlgorithm {
     List<Endpoint> endpoints;
     List<Server> servers;
 
-    public GeneticAlgorithm(InputDto inputDto) {
+    public GeneticAlgorithm(InputDto inputDto, List<Endpoint> endpoints, List<Server> servers) {
         this.inputDto = inputDto;
         currentGeneration = generateInitalPopulation(1000);
+        this.endpoints = endpoints;
+        this.servers = servers;
     }
 
     public Population generateInitalPopulation(long populationSize) {
@@ -41,6 +43,10 @@ public class GeneticAlgorithm {
             population.individuals.add(individual);
         }
         return population;
+    }
+
+    public Individual getBestIndividual() {
+        return null;
     }
 
     public List<Video> getShuffledSet(Set<Video> videos) {
