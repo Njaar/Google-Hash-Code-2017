@@ -12,6 +12,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class App 
@@ -49,18 +51,24 @@ public class App
     private static ArrayList<Endpoint> generateEndpoints(InputDto inputDto) {
         ArrayList<Endpoint> list = new ArrayList<>();
         for (EndpointData endpointData :  inputDto.getEndpointDataList()) {
-//            list.add(createEndpoint(endpointData, inputDto.getRequestDescriptions().get()));
+            list.add(createEndpoint(endpointData, inputDto.getRequestDescriptions()));
         }
         return list;
     }
 
-//    private static Endpoint createEndpoint(EndpointData endpointData, RequestDescription requestDescriptions) {
-//        Endpoint endpoint = new Endpoint();
-//        endpoint.setDataCenterLatency(endpointData.getLatency());
-//        endpoint.setVideoRequests(createVideoRequestMap(requestDescriptions.get()));
+    private static Endpoint createEndpoint(EndpointData endpointData, ArrayList<RequestDescription> requestDescriptions) {
+        Endpoint endpoint = new Endpoint();
+        endpoint.setDataCenterLatency(endpointData.getLatency());
+        endpoint.setVideoRequests(createVideoRequestMap(endpointData, requestDescriptions));
 //        endpoint.setServerLatency();
-//        return endpoint;
-//    }
+        return endpoint;
+    }
+
+    private static Map<Video, Long> createVideoRequestMap(EndpointData endpointData, ArrayList<RequestDescription> requestDescriptions) {
+        Map<Video, Long> map = new HashMap<>();
+//        map.put(createVideo(endpointData, requestDescriptions), )
+        return map;
+    }
 
     private static InputDto readFile(Scanner in) {
         InputDto inputDto = new InputDto();
@@ -85,7 +93,7 @@ public class App
                 CacheServerData cacheServerData = new CacheServerData();
                 cacheServerData.setServerId(in.nextLong());
                 cacheServerData.setLatency(in.nextLong());
-                endpointData.getEndpointConnections().set(Integer.parseInt(String.valueOf(cacheServerData.getServerId())), cacheServerData);
+                endpointData.getEndpointConnections().add(cacheServerData);
             }
             inputDto.setRequestDescriptions(new ArrayList<>());
             for (int j = 0; j < inputDto.getNumReqDescs(); j++) {
@@ -93,7 +101,7 @@ public class App
                 description.setVideoId(in.nextLong());
                 description.setEndpointId(in.nextLong());
                 description.setNumRequests(in.nextLong());
-                inputDto.getRequestDescriptions().set(Integer.parseInt(String.valueOf(description.getVideoId())), description);
+                inputDto.getRequestDescriptions().add(description);
             }
         }
         return inputDto;
