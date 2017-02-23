@@ -3,6 +3,8 @@ package com.jedi.hackathons;
 import com.jedi.hackathons.domain.Endpoint;
 import com.jedi.hackathons.domain.Server;
 import com.jedi.hackathons.domain.Video;
+import com.jedi.hackathons.ga.Chromosome;
+import com.jedi.hackathons.ga.Individual;
 import com.jedi.hackathons.ga.GeneticAlgorithm;
 import com.jedi.hackathons.ga.Individual;
 import com.jedi.hackathons.input.CacheServerData;
@@ -13,6 +15,7 @@ import com.jedi.hackathons.input.RequestDescription;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,15 +46,27 @@ public class App
         Individual individual = geneticAlgorithm.getBestIndividual();
         System.out.println(individual.chromosomes.toString());
 
-        //Variables
-        String output = "";
         //Output and close
         try{
-            out.write(output);
+            printIndividual(individual, out);
             in.close();
             out.close();
         }catch(Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public static void printIndividual(Individual individual, BufferedWriter out) throws IOException {
+        out.write(String.valueOf(individual.chromosomes.size()));
+        for (int i = 0; i < individual.chromosomes.size(); i++) {
+            out.newLine();
+            Chromosome c = individual.chromosomes.get(i);
+            out.write(String.valueOf(c.getServerId()));
+            for (int j = 0; j < c.getVideos().size(); j++)
+            {
+                out.write(" ");
+                out.write(String.valueOf(c.getVideos().get(j)));
+            }
         }
     }
 
