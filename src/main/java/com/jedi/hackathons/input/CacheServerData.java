@@ -1,4 +1,4 @@
-package com.jedi.hackathons;
+package com.jedi.hackathons.input;
 
 /**
  * Created by deenan.vythilingam on 2017/02/23.
