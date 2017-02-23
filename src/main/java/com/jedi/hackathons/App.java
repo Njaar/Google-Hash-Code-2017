@@ -35,6 +35,7 @@ public class App
 
         InputDto inputDto = readFile(in);
         ArrayList<Endpoint> endpoints = generateEndpoints(inputDto);
+        ArrayList<Server> servers = getServers(inputDto);
 
         //Variables
         String output = "";
@@ -46,6 +47,16 @@ public class App
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    private static ArrayList<Server> getServers(InputDto inputDto) {
+        Map<Long, Server> servers = new HashMap<>();
+        for (EndpointData endpointData :  inputDto.getEndpointDataList()) {
+            for (Server server : createServers(endpointData, inputDto.getNumServerCapacity()).keySet()) {
+                servers.put(server.getId(), server);
+            }
+        }
+        return new ArrayList<>(servers.values());
     }
 
     private static ArrayList<Endpoint> generateEndpoints(InputDto inputDto) {
