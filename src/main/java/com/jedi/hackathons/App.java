@@ -5,6 +5,7 @@ import com.jedi.hackathons.domain.Server;
 import com.jedi.hackathons.domain.Video;
 import com.jedi.hackathons.ga.Chromosome;
 import com.jedi.hackathons.ga.Individual;
+import com.jedi.hackathons.ga.GeneticAlgorithm;
 import com.jedi.hackathons.input.CacheServerData;
 import com.jedi.hackathons.input.EndpointData;
 import com.jedi.hackathons.input.InputDto;
@@ -21,8 +22,8 @@ import java.util.Scanner;
 
 public class App 
 {
-//    private static final String INPUT_FILE_NAME = "A-small-attempt4.in";
-//    private static final String OUTPUT_FILE_NAME = "result.txt";
+    private static final String INPUT_FILE_NAME = "kittens.in";
+    private static final String OUTPUT_FILE_NAME = "result.txt";
 
     public static void main(String[] args){
 
@@ -30,14 +31,17 @@ public class App
         Scanner in = null;
         BufferedWriter out = null;
         try{
-            in = new Scanner(new File(args[0]));
-            out = new BufferedWriter(new FileWriter(args[1] , false));
+            in = new Scanner(new File(INPUT_FILE_NAME));
+            out = new BufferedWriter(new FileWriter(OUTPUT_FILE_NAME , false));
         }catch(Exception e){
             e.printStackTrace();
         }
 
         InputDto inputDto = readFile(in);
         ArrayList<Endpoint> endpoints = generateEndpoints(inputDto);
+        ArrayList<Server> servers = getServers(inputDto);
+
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(inputDto, endpoints, servers);
 
         //Output and close
         try{
@@ -61,6 +65,16 @@ public class App
                 out.write(String.valueOf(c.getVideos().get(j)));
             }
         }
+    }
+
+    private static ArrayList<Server> getServers(InputDto inputDto) {
+        Map<Long, Server> servers = new HashMap<>();
+        for (EndpointData endpointData :  inputDto.getEndpointDataList()) {
+            for (Server server : createServers(endpointData, inputDto.getNumServerCapacity()).keySet()) {
+                servers.put(server.getId(), server);
+            }
+        }
+        return new ArrayList<>(servers.values());
     }
 
     private static ArrayList<Endpoint> generateEndpoints(InputDto inputDto) {
