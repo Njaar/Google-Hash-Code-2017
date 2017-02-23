@@ -4,6 +4,7 @@ import com.jedi.hackathons.domain.Endpoint;
 import com.jedi.hackathons.domain.Server;
 import com.jedi.hackathons.domain.Video;
 import com.jedi.hackathons.ga.GeneticAlgorithm;
+import com.jedi.hackathons.ga.Individual;
 import com.jedi.hackathons.input.CacheServerData;
 import com.jedi.hackathons.input.EndpointData;
 import com.jedi.hackathons.input.InputDto;
@@ -39,6 +40,8 @@ public class App
         ArrayList<Server> servers = null; //todo
 
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(inputDto, endpoints, servers);
+        Individual individual = geneticAlgorithm.getBestIndividual();
+        System.out.println(individual);
 
         //Variables
         String output = "";
