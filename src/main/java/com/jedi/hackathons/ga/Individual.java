@@ -1,5 +1,6 @@
 package com.jedi.hackathons.ga;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,5 +10,9 @@ public class Individual {
 
     public List<Chromosome> chromosomes;
     public int score;
+
+    public Individual() {
+        chromosomes = new ArrayList<Chromosome>();
+    }
 
 }

@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 public class App 
 {
-    private static final String INPUT_FILE_NAME = "kittens.in";
+    private static final String INPUT_FILE_NAME = "me_at_the_zoo.in";
     private static final String OUTPUT_FILE_NAME = "result.txt";
 
     public static void main(String[] args){
@@ -41,7 +41,7 @@ public class App
 
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(inputDto, endpoints, servers);
         Individual individual = geneticAlgorithm.getBestIndividual();
-        System.out.println(individual);
+        System.out.println(individual.chromosomes.toString());
 
         //Variables
         String output = "";

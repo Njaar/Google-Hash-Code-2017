@@ -46,7 +46,7 @@ public class GeneticAlgorithm {
     }
 
     public Individual getBestIndividual() {
-        return currentGeneration.individuals.get(0);
+        return currentGeneration.individuals.get(42);
     }
 
     public List<Video> getShuffledSet(Set<Video> videos) {
