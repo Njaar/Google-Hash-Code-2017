@@ -1,5 +1,8 @@
 package com.jedi.hackathons.ga;
 
+import com.jedi.hackathons.domain.Video;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,10 +52,11 @@ public class Chromosome {
         this.serverId = serverId;
         this.capacity = capacity;
         this.remainingCapacity = capacity;
+        videos = new ArrayList<Long>();
     }
 
     public boolean validateAddVideo(long videoId, long videoSize) {
-        if(remainingCapacity >= videoSize) {
+        if(remainingCapacity >= videoSize && !videos.contains(videoId)) {
             videos.add(videoId);
             remainingCapacity -= videoSize;
             return true;

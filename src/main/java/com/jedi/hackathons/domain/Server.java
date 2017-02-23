@@ -22,4 +22,22 @@ public class Server {
     public void setCapacity(long capacity) {
         this.capacity = capacity;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Server server = (Server) o;
+
+        if (id != server.id) return false;
+        return capacity == server.capacity;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (int) (capacity ^ (capacity >>> 32));
+        return result;
+    }
 }

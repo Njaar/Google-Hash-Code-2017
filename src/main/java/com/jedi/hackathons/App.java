@@ -23,8 +23,8 @@ import java.util.Scanner;
 
 public class App 
 {
-    private static final String INPUT_FILE_NAME = "me_at_the_zoo.in";
-    private static final String OUTPUT_FILE_NAME = "result.txt";
+    private static final String INPUT_FILE_NAME = "trending_today.in";
+    private static final String OUTPUT_FILE_NAME = "tredning.txt";
 
     public static void main(String[] args){
 
@@ -44,7 +44,6 @@ public class App
 
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(inputDto, endpoints, servers);
         Individual individual = geneticAlgorithm.getBestIndividual();
-        System.out.println(individual.chromosomes.toString());
 
         //Output and close
         try{
