@@ -1,6 +1,7 @@
 package com.jedi.hackathons.input;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by deenan.vythilingam on 2017/02/23.
@@ -13,7 +14,7 @@ public class InputDto {
     long numServerCapacity;
     ArrayList<Long> videoSizes;
     ArrayList<EndpointData> endpointDataList;
-    ArrayList<RequestDescription> requestDescriptions;
+    Map<Long, RequestDescription> requestDescriptions;
 
     public long getNumVideos() {
         return numVideos;
@@ -71,11 +72,11 @@ public class InputDto {
         this.endpointDataList = endpointDataList;
     }
 
-    public ArrayList<RequestDescription> getRequestDescriptions() {
+    public Map<Long, RequestDescription> getRequestDescriptions() {
         return requestDescriptions;
     }
 
-    public void setRequestDescriptions(ArrayList<RequestDescription> requestDescriptions) {
+    public void setRequestDescriptions(Map<Long, RequestDescription> requestDescriptions) {
         this.requestDescriptions = requestDescriptions;
     }
 }

@@ -51,23 +51,48 @@ public class App
     private static ArrayList<Endpoint> generateEndpoints(InputDto inputDto) {
         ArrayList<Endpoint> list = new ArrayList<>();
         for (EndpointData endpointData :  inputDto.getEndpointDataList()) {
-            list.add(createEndpoint(endpointData, inputDto.getRequestDescriptions()));
+            list.add(createEndpoint(endpointData, inputDto.getRequestDescriptions(), inputDto.getVideoSizes(), inputDto.getNumServerCapacity()));
         }
         return list;
     }
 
-    private static Endpoint createEndpoint(EndpointData endpointData, ArrayList<RequestDescription> requestDescriptions) {
+    private static Endpoint createEndpoint(EndpointData endpointData, Map<Long, RequestDescription> requestDescriptions, ArrayList<Long> videoSizes, long numServerCapacity) {
         Endpoint endpoint = new Endpoint();
         endpoint.setDataCenterLatency(endpointData.getLatency());
-        endpoint.setVideoRequests(createVideoRequestMap(endpointData, requestDescriptions));
-//        endpoint.setServerLatency();
+        endpoint.setVideoRequests(createVideoRequestMap(endpointData, videoSizes, requestDescriptions));
+        endpoint.setServerLatency(createServers(endpointData, numServerCapacity));
         return endpoint;
     }
 
-    private static Map<Video, Long> createVideoRequestMap(EndpointData endpointData, ArrayList<RequestDescription> requestDescriptions) {
-        Map<Video, Long> map = new HashMap<>();
-//        map.put(createVideo(endpointData, requestDescriptions), )
+    private static Map<Server, Long> createServers(EndpointData endpointData, long numServerCapacity) {
+        Map<Server, Long> map = new HashMap<>();
+        for (int i = 0; i < endpointData.getEndpointConnections().size(); i++) {
+            CacheServerData cacheServerData =  endpointData.getEndpointConnections().get(i);
+            map.put(createServer(cacheServerData.getServerId(), numServerCapacity), cacheServerData.getLatency());
+        }
         return map;
+    }
+
+    private static Server createServer(Long id, Long capacity) {
+        Server server = new Server();
+        server.setId(id);
+        server.setCapacity(capacity);
+        return server;
+    }
+
+    private static Map<Video, Long> createVideoRequestMap(EndpointData endpointData, ArrayList<Long> videoSizes, Map<Long, RequestDescription> requestDescriptions) {
+        Map<Video, Long> videomap = new HashMap<>();
+        for (int i = 0; i < endpointData.getEndpointConnections().size(); i++) {
+            videomap.put(createVideo(i, videoSizes.get(i)), requestDescriptions.get((long)i).getNumRequests());
+        }
+        return videomap;
+    }
+
+    private static Video createVideo(long videoId, Long videoSize) {
+        Video video = new Video();
+        video.setId(videoId);
+        video.setSize(videoSize);
+        return video;
     }
 
     private static InputDto readFile(Scanner in) {
@@ -98,13 +123,13 @@ public class App
             }
             inputDto.getEndpointDataList().add(endpointData);
         }
-        inputDto.setRequestDescriptions(new ArrayList<>());
+        inputDto.setRequestDescriptions(new HashMap<>());
         for (int j = 0; j < inputDto.getNumReqDescs(); j++) {
             RequestDescription description = new RequestDescription();
             description.setVideoId(in.nextLong());
             description.setEndpointId(in.nextLong());
             description.setNumRequests(in.nextLong());
-            inputDto.getRequestDescriptions().add(description);
+            inputDto.getRequestDescriptions().put(description.getVideoId(), description);
         }
         return inputDto;
     }
