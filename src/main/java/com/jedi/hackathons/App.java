@@ -73,36 +73,38 @@ public class App
     private static InputDto readFile(Scanner in) {
         InputDto inputDto = new InputDto();
         inputDto.setNumVideos(in.nextLong());
-        inputDto.setNumCacheServers(in.nextLong());
         inputDto.setNumEndpoints(in.nextLong());
         inputDto.setNumReqDescs(in.nextLong());
+        inputDto.setNumCacheServers(in.nextLong());
         inputDto.setNumServerCapacity(in.nextLong());
+        System.out.println(inputDto.getNumVideos() +" , "+ inputDto.getNumCacheServers() +" , "+ inputDto.getNumEndpoints() +" , "+ inputDto.getNumReqDescs() +" , "+ inputDto.getNumServerCapacity());
         ArrayList<Long> videoSizes = new ArrayList<>();
-        inputDto.setVideoSizes(videoSizes);
-        inputDto.setEndpointDataList(new ArrayList<>());
         for (int i = 0; i < inputDto.getNumVideos(); i++) {
             videoSizes.add(in.nextLong());
         }
+        inputDto.setVideoSizes(videoSizes);
+
+        inputDto.setEndpointDataList(new ArrayList<>());
         for (int i = 0; i < inputDto.getNumEndpoints(); i++) {
             EndpointData endpointData = new EndpointData();
-            inputDto.getEndpointDataList().add(endpointData);
             endpointData.setLatency(in.nextLong());
             endpointData.setNumCacheServers(in.nextLong());
             endpointData.setEndpointConnections(new ArrayList<>());
-            for (int k = 0; k < inputDto.getNumCacheServers(); k++) {
+            for (int k = 0; k < endpointData.getNumCacheServers(); k++) {
                 CacheServerData cacheServerData = new CacheServerData();
                 cacheServerData.setServerId(in.nextLong());
                 cacheServerData.setLatency(in.nextLong());
                 endpointData.getEndpointConnections().add(cacheServerData);
             }
-            inputDto.setRequestDescriptions(new ArrayList<>());
-            for (int j = 0; j < inputDto.getNumReqDescs(); j++) {
-                RequestDescription description = new RequestDescription();
-                description.setVideoId(in.nextLong());
-                description.setEndpointId(in.nextLong());
-                description.setNumRequests(in.nextLong());
-                inputDto.getRequestDescriptions().add(description);
-            }
+            inputDto.getEndpointDataList().add(endpointData);
+        }
+        inputDto.setRequestDescriptions(new ArrayList<>());
+        for (int j = 0; j < inputDto.getNumReqDescs(); j++) {
+            RequestDescription description = new RequestDescription();
+            description.setVideoId(in.nextLong());
+            description.setEndpointId(in.nextLong());
+            description.setNumRequests(in.nextLong());
+            inputDto.getRequestDescriptions().add(description);
         }
         return inputDto;
     }

@@ -11,7 +11,7 @@ public class GeneticAlgorithm {
     Population nextGeneration;
 
     public List<Population> generateInitalPopulation(long populationSize) {
-        
+        return null;
     }
 
 }
