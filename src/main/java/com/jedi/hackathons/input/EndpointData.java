@@ -1,4 +1,4 @@
-package com.jedi.hackathons;
+package com.jedi.hackathons.input;
 
 import java.util.ArrayList;
 
